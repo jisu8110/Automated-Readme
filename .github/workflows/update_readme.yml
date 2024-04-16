@@ -7,7 +7,7 @@ name: Update README
 on:
   push:
     branches:
-      - master
+      - main
     paths: 
       - 'docs/Python/*.py'
       - 'docs/CPP/*.cpp'
