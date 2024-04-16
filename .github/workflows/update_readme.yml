@@ -21,6 +21,7 @@ on:
 jobs:
   update-readme: # 이름 자유 아무거나
     runs-on: ubuntu-latest
+    using: 'node20'
 
     strategy:
       fail-fast: false
@@ -106,7 +107,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           git config --global user.name "${{ github.actor }}"
-          git config --global user.email "${{ github.actor }}@gmail.com"
+          git config --global user.email "${{ github.actor }}23@gmail.com"
           git add -A
           git commit -m "auto update README.md"
           git push origin main
