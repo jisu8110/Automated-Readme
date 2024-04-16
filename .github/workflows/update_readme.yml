@@ -61,26 +61,30 @@ jobs:
 
       - name: Update README
         run: |
+          echo "==== added ===="
           for file in ${ADDED_FILES}; do
             file_link="docs/$file_name"
+            echo "$file is added to $file_link"
             python3 ./helpers/add_to_list.py ./README.md $file $file_link
           done
+          echo "==== deleted ===="
           for file in ${DELETED_FILES}; do
             file_link="docs/$file_name"
+            echo "$file is added to $file_link"
             python3 ./helpers/delete_line.py $file ./README.md
           done
 
-          # file_name="$file_name"
-          # echo "FILENAME ==> $file_name"
-          # if [ -f "docs/$file_name" ]; then
-          #   echo "==FILE WAS CREATED=="
-          #   file_link="docs/$file_name"
-          #   echo "FILE LINK ==> $file_link"
-          #   python3 ./helpers/add_to_list.py ./README.md $file_name $file_link
-          # else
-          #   echo "==FILE WAS DELETED=="
-          #   python3 ./helpers/delete_line.py $file_name ./README.md
-          # fi     
+        # file_name="$file_name"
+        # echo "FILENAME ==> $file_name"
+        # if [ -f "docs/$file_name" ]; then
+        #   echo "==FILE WAS CREATED=="
+        #   file_link="docs/$file_name"
+        #   echo "FILE LINK ==> $file_link"
+        #   python3 ./helpers/add_to_list.py ./README.md $file_name $file_link
+        # else
+        #   echo "==FILE WAS DELETED=="
+        #   python3 ./helpers/delete_line.py $file_name ./README.md
+        # fi     
 
     
 
