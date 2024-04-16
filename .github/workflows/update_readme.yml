@@ -37,6 +37,35 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install python-leetcode
+
+      - name: Get file name
+        id: file-name
+        run: |
+          commit_message=$(git log --format=%B -n 1 ${{ github.sha }})
+          echo "==> COMMIT MESSAGE: $commit_message"
+          file_name=$(echo $commit_message | cut -d' ' -f2)
+          # echo "::set-output name=file_name::$file_name"
+          # REF: https://github.blog/changelog/2022-10-11-github-actions-deprecating-save-state-and-set-output-commands/
+          echo "file_name=$file_name" >> $GITHUB_ENV
+
+      - name: Update README
+        run: |
+          file_name="$file_name"
+          
+          echo "FILENAME ==> $file_name"
+          
+          if [ -f "docs/$file_name" ]; then
+            echo "==FILE WAS CREATED=="
+            file_link="docs/$file_name"
+            echo "FILE LINK ==> $file_link"
+            python3 ./helpers/add_to_list.py ./README.md $file_name $file_link
+          else
+            echo "==FILE WAS DELETED=="
+            python3 ./helpers/delete_line.py $file_name ./README.md
+          fi     
+
+      
+          
     # - name: Set up Python 3.10
     #   uses: actions/setup-python@v3
     #   with:
@@ -69,26 +98,26 @@ jobs:
       #       echo "$file was changed"
       #     done
       
-      - name: Update README
-        run: |
-          # accessed the $file_name from the $GITHUB_ENV
-          file_name="$file_name"
+      # - name: Update README
+      #   run: |
+      #     # accessed the $file_name from the $GITHUB_ENV
+      #     file_name="$file_name"
           
-          echo "FILENAME ==> $file_name"
+      #     echo "FILENAME ==> $file_name"
           
-          if [ -f "docs/Python/$file_name" ]; then
-            echo "==FILE WAS CREATED=="
-            file_link="docs/Python/$file_name"
-            echo "FILE LINK ==> $file_link"
-            python3 ./helpers/add_to_list.py README.md $file_name $file_link
-          else
-            echo "==FILE WAS DELETED=="
-            python3 ./helpers/delete_line.py $file_name README.md
-          fi  
+      #     if [ -f "docs/Python/$file_name" ]; then
+      #       echo "==FILE WAS CREATED=="
+      #       file_link="docs/Python/$file_name"
+      #       echo "FILE LINK ==> $file_link"
+      #       python3 ./helpers/add_to_list.py README.md $file_name $file_link
+      #     else
+      #       echo "==FILE WAS DELETED=="
+      #       python3 ./helpers/delete_line.py $file_name README.md
+      #     fi  
 
       # - name: Run write_readme.py
       #   run: |
-      #     python ../write_readme.py
+      #     python ./write_readme.py
 
       - name: Commit and Push Changes
         env:
