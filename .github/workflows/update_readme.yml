@@ -46,9 +46,9 @@ jobs:
           
           echo "FILENAME ==> $file_name"
           
-          if [ -f "docs/$file_name" ]; then
+          if [ -f "docs/Python/$file_name" ]; then
             echo "==FILE WAS CREATED=="
-            file_link="Python/$file_name"
+            file_link="docs/Python/$file_name"
             echo "FILE LINK ==> $file_link"
             python3 ./helpers/add_to_list.py ./README.md $file_name $file_link
           else
