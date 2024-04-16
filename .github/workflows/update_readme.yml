@@ -7,16 +7,16 @@ name: Update README
 on:
   push:
     branches: [ main ]
-    paths: 
-      - 'docs/Python/*.py'
-      - 'docs/CPP/*.cpp'
-      - 'docs/CSharp/*.cs'
+    # paths: 
+    #   - 'docs/Python/*.py'
+    #   - 'docs/CPP/*.cpp'
+    #   - 'docs/CSharp/*.cs'
   pull_request:
     branches: [ main ]
-    paths: 
-      - 'docs/Python/*.py'
-      - 'docs/CPP/*.cpp'
-      - 'docs/CSharp/*.cs'
+    # paths: 
+    #   - 'docs/Python/*.py'
+    #   - 'docs/CPP/*.cpp'
+    #   - 'docs/CSharp/*.cs'
 
 jobs:
   update-readme: # 이름 자유 아무거나
