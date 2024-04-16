@@ -45,14 +45,44 @@ jobs:
 
       - name: List all changed files
         env:
-          # ALL_CHANGED_FILES: ${{ steps.changed-files.outputs.all_changed_files }}
-          ALL_MODIFIED_FILES: ${{ steps.changed-files.outputs.all_modified_files }}
+          ADDED_FILES: ${{ steps.changed-files.outputs.added_files }}
+          DELETED_FILES: ${{ steps.changed-files.outputs.deleted_files }}
+          MODIFIED_FILES: ${{ steps.changed-files.outputs.modified_files }}
         run: |
-          for file in ${ALL_CHANGED_FILES}; do
-            echo "$file was changed"
+          for file in ${ADDED_FILES}; do
+            echo "$file was added"
+          done
+          for file in ${DELETED_FILES}; do
+            echo "$file was deleted"
+          done
+          for file in ${MODIFIED_FILES}; do
+            echo "$file was modified"
           done
 
-          echo "${ALL_CHANGED_FILES}"
+      - name: Update README
+        run: |
+          for file in ${ADDED_FILES}; do
+            file_link="docs/$file_name"
+            python3 ./helpers/add_to_list.py ./README.md $file $file_link
+          done
+          for file in ${DELETED_FILES}; do
+            file_link="docs/$file_name"
+            python3 ./helpers/delete_line.py $file ./README.md
+          done
+
+          # file_name="$file_name"
+          # echo "FILENAME ==> $file_name"
+          # if [ -f "docs/$file_name" ]; then
+          #   echo "==FILE WAS CREATED=="
+          #   file_link="docs/$file_name"
+          #   echo "FILE LINK ==> $file_link"
+          #   python3 ./helpers/add_to_list.py ./README.md $file_name $file_link
+          # else
+          #   echo "==FILE WAS DELETED=="
+          #   python3 ./helpers/delete_line.py $file_name ./README.md
+          # fi     
+
+    
 
 
       # - name: Get file name
@@ -64,24 +94,6 @@ jobs:
       #     # echo "::set-output name=file_name::$file_name"
       #     # REF: https://github.blog/changelog/2022-10-11-github-actions-deprecating-save-state-and-set-output-commands/
       #     echo "file_name=$file_name" >> $GITHUB_ENV
-
-      # - name: Update README
-      #   run: |
-      #     file_name="$file_name"
-          
-      #     echo "FILENAME ==> $file_name"
-          
-      #     if [ -f "docs/$file_name" ]; then
-      #       echo "==FILE WAS CREATED=="
-      #       file_link="docs/$file_name"
-      #       echo "FILE LINK ==> $file_link"
-      #       python3 ./helpers/add_to_list.py ./README.md $file_name $file_link
-      #     else
-      #       echo "==FILE WAS DELETED=="
-      #       python3 ./helpers/delete_line.py $file_name ./README.md
-      #     fi     
-
-      
           
     # - name: Set up Python 3.10
     #   uses: actions/setup-python@v3
