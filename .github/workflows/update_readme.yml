@@ -82,11 +82,21 @@ jobs:
           done
           echo ""
           
-          echo "file list == $FILE_LIST"
+          echo "========== FILE_LIST"
+          # FILE_LIST 배열 출력
+          for file in "${FILE_LIST[@]}"; do
+            echo "$file"
+          done
 
-          for file in ${FILE_LISTS}; do
-            echo "\t for $file"
-            python ./helpers/read_files.py $file
+          # for file in ${FILE_LISTS}; do
+          #   echo "\t for $file"
+          #   python ./helpers/read_files.py $file
+          # done
+
+          # FILE_LIST 배열의 모든 파일에 대해 작업 수행
+          for file in "${FILE_LIST[@]}"; do
+            echo "Processing $file"
+            python ./helpers/read_files.py "$file"
           done
 
 
