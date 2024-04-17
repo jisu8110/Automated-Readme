@@ -1,9 +1,8 @@
 import argparse
-import os
 
 def read_line(file_path):
 
-    if os.path.exists(file_path):
+    if file_path.startswith("docs/"):
         if file_path.endswith('.py'):
             with open(file_path, 'r') as file:
                 first_line = file.readline()
@@ -12,7 +11,7 @@ def read_line(file_path):
         else:
             print(f"File '{file_path}' doesn't match target file type.")
     else:
-        print(f"File '{file_path}' does not exist.")
+        print(f"File '{file_path}' does not exist in docs.")
 
 
 def main():
