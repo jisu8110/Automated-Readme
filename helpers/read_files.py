@@ -3,13 +3,10 @@ import argparse
 def read_line(file_path):
 
     if file_path.startswith("docs/"):
-        if file_path.endswith('.py'):
-            with open(file_path, 'r') as file:
-                first_line = file.readline()
-                print(f"-- {file_path}")
-                print("First line of the file:", first_line.strip())  # strip()으로 개행 문자 제거
-        else:
-            print(f"File '{file_path}' doesn't match target file type.")
+        with open(file_path, 'r') as file:
+            first_line = file.readline()
+            print(f"-- {file_path}")
+            print("First line of the file:", first_line.strip())  # strip()으로 개행 문자 제거
     else:
         print(f"File '{file_path}' does not exist in docs.")
 

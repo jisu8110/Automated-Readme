@@ -78,14 +78,19 @@ jobs:
           for file in ${ANY_MODIFIED}; do
             echo "$file"
           done
-          
-      - name: Read the First Line
-        env:
-          ANY_MODIFIED: ${{ steps.changed-files.outputs.any_modified }}
-        run:
-          for file in ${ANY_MODIFIED}; do
+
+          FILE_LISTS=("$ADDED_FILES" "$DELETED_FILES" "$MODIFIED_FILES" "$RENAMED_FILES" "$UNKNOWN_FILES")
+          for file in ${FILE_LISTS}; do
             python ./helpers/read_files.py $file
           done
+          
+      # - name: Read the First Line
+      #   env:
+      #     ANY_MODIFIED: ${{ steps.changed-files.outputs.any_modified }}
+      #   run:
+      #     for file in ${ANY_MODIFIED}; do
+      #       python ./helpers/read_files.py $file
+      #     done
 
         
 
