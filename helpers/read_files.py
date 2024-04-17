@@ -1,14 +1,18 @@
 import argparse
+import os
 
 def read_line(file_path):
 
     if file_path.startswith("docs/"):
-        with open(file_path, 'r') as file:
-            first_line = file.readline()
-            print(f"-- {file_path}")
-            print("First line of the file:", first_line.strip())  # strip()으로 개행 문자 제거
+        if os.path.exists(file_path):
+            with open(file_path, 'r') as file:
+                first_line = file.readline()
+                print(f"-- {file_path}")
+                print("First line of the file:", first_line.strip())  # strip()으로 개행 문자 제거     else:
+        else: 
+            print(f"File '{file_path}' does not exist.")
     else:
-        print(f"File '{file_path}' does not exist in docs.")
+        print(f"File '{file_path}' does not exist in docs/.")
 
 
 def main():
