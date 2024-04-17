@@ -51,22 +51,23 @@ jobs:
           RENAMED_FILES: ${{ steps.changed-files.outputs.renamed_files }}
           UNKNOWN_FILES: ${{ steps.changed-files.outputs.unknown_files }}
         run: |
+          echo "========== ADDED_FILES"
           for file in ${ADDED_FILES}; do
             echo "$file"
           done
-          echo "=========="
+          echo "========== DELETED_FILES"
           for file in ${DELETED_FILES}; do
             echo "$file"
           done
-          echo "=========="
+          echo "========== MODIFIED_FILES"
           for file in ${MODIFIED_FILES}; do
             echo "$file"
           done
-          echo "=========="
+          echo "========== RENAMED_FILES"
           for file in ${RENAMED_FILES}; do
             echo "$file"
           done
-          echo "=========="
+          echo "========== UNKNOWN_FILES"
           for file in ${UNKNOWN_FILES}; do
             echo "$file"
           done
