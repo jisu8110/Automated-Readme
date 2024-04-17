@@ -48,45 +48,64 @@ jobs:
           ADDED_FILES: ${{ steps.changed-files.outputs.added_files }}
           DELETED_FILES: ${{ steps.changed-files.outputs.deleted_files }}
           MODIFIED_FILES: ${{ steps.changed-files.outputs.modified_files }}
+          RENAMED_FILES: ${{ steps.changed-files.outputs.renamed_files }}
+          UNKNOWN_FILES: ${{ steps.changed-files.outputs.unknown_files }}
         run: |
           for file in ${ADDED_FILES}; do
-            echo "$file was added"
+            echo "$file"
           done
+          echo "=========="
           for file in ${DELETED_FILES}; do
-            echo "$file was deleted"
+            echo "$file"
           done
+          echo "=========="
           for file in ${MODIFIED_FILES}; do
-            echo "$file was modified"
+            echo "$file"
+          done
+          echo "=========="
+          for file in ${RENAMED_FILES}; do
+            echo "$file"
+          done
+          echo "=========="
+          for file in ${UNKNOWN_FILES}; do
+            echo "$file"
           done
 
       - name: Update README
+        env:
+          ADDED_FILES: ${{ steps.changed-files.outputs.added_files }}
+          DELETED_FILES: ${{ steps.changed-files.outputs.deleted_files }}
+          MODIFIED_FILES: ${{ steps.changed-files.outputs.modified_files }}
+          RENAMED_FILES: ${{ steps.changed-files.outputs.renamed_files }}
+          UNKNOWN_FILES: ${{ steps.changed-files.outputs.unknown_files }}
         run: |
-          echo "==== added ===="
+          echo "==== ADDED_FILES ===="
           for file in ${ADDED_FILES}; do
             file_link="docs/$file_name"
             echo "$file is added to $file_link"
             python3 ./helpers/add_to_list.py ./README.md $file $file_link
           done
-          echo "==== deleted ===="
+          echo "==== DELETED_FILES ===="
           for file in ${DELETED_FILES}; do
             file_link="docs/$file_name"
-            echo "$file is added to $file_link"
+            echo "$file is deleted to $file_link"
             python3 ./helpers/delete_line.py $file ./README.md
           done
-
-        # file_name="$file_name"
-        # echo "FILENAME ==> $file_name"
-        # if [ -f "docs/$file_name" ]; then
-        #   echo "==FILE WAS CREATED=="
-        #   file_link="docs/$file_name"
-        #   echo "FILE LINK ==> $file_link"
-        #   python3 ./helpers/add_to_list.py ./README.md $file_name $file_link
-        # else
-        #   echo "==FILE WAS DELETED=="
-        #   python3 ./helpers/delete_line.py $file_name ./README.md
-        # fi     
-
-    
+          echo "==== MODIFIED_FILES ===="
+          for file in ${MODIFIED_FILES}; do
+            file_link="docs/$file_name"
+            echo "$file is modified to $file_link"
+          done
+          echo "==== RENAMED_FILES ===="
+          for file in ${RENAMED_FILES}; do
+            file_link="docs/$file_name"
+            echo "$file is renamed"
+          done
+          echo "==== UNKNOWN_FILES ===="
+          for file in ${UNKNOWN_FILES}; do
+            file_link="docs/$file_name"
+            echo "$file is unknown"
+          done
 
 
       # - name: Get file name
