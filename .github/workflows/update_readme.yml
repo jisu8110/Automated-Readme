@@ -53,46 +53,49 @@ jobs:
 
           ANY_MODIFIED: ${{ steps.changed-files.outputs.any_modified }}
         run: |
+          FILE_LIST=()
+
           echo "========== ADDED_FILES"
           for file in ${ADDED_FILES}; do
             echo "$file"
+            FILE_LIST+=("$file")
           done
           echo "========== DELETED_FILES"
           for file in ${DELETED_FILES}; do
             echo "$file"
+            FILE_LIST+=("$file")
           done
           echo "========== MODIFIED_FILES"
           for file in ${MODIFIED_FILES}; do
             echo "$file"
+            FILE_LIST+=("$file")
           done
           echo "========== RENAMED_FILES"
           for file in ${RENAMED_FILES}; do
             echo "$file"
+            FILE_LIST+=("$file")
           done
           echo "========== UNKNOWN_FILES"
           for file in ${UNKNOWN_FILES}; do
             echo "$file"
+            FILE_LIST+=("$file")
           done
           echo ""
-          echo "----------- ANY_MODIFIED"
-          for file in ${ANY_MODIFIED}; do
-            echo "$file"
-          done
+          
+          echo "file list == $FILE_LIST"
 
-          FILE_LISTS=("${ADDED_FILES}" "${DELETED_FILES}" "${MODIFIED_FILES}" "${RENAMED_FILES}" "${UNKNOWN_FILES}")
           for file in ${FILE_LISTS}; do
             echo "\t for $file"
             python ./helpers/read_files.py $file
           done
-          
-      # - name: Read the First Line
-      #   env:
-      #     ANY_MODIFIED: ${{ steps.changed-files.outputs.any_modified }}
-      #   run:
-      #     for file in ${ANY_MODIFIED}; do
-      #       python ./helpers/read_files.py $file
-      #     done
 
+
+          # FILE_LISTS=("${ADDED_FILES}" "${DELETED_FILES}" "${MODIFIED_FILES}" "${RENAMED_FILES}" "${UNKNOWN_FILES}")
+          # for file_list in ${FILE_LIST}; do
+          #   for file in ${file_list}; do
+          #     python ./helpers/read_files.py $file
+          #   done
+          # done
 
 
 
