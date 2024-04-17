@@ -81,6 +81,7 @@ jobs:
 
           FILE_LISTS=("${ADDED_FILES}" "${DELETED_FILES}" "${MODIFIED_FILES}" "${RENAMED_FILES}" "${UNKNOWN_FILES}")
           for file in ${FILE_LISTS}; do
+            echo "\t for $file"
             python ./helpers/read_files.py $file
           done
           
