@@ -50,6 +50,8 @@ jobs:
           MODIFIED_FILES: ${{ steps.changed-files.outputs.modified_files }}
           RENAMED_FILES: ${{ steps.changed-files.outputs.renamed_files }}
           UNKNOWN_FILES: ${{ steps.changed-files.outputs.unknown_files }}
+
+          ANY_MODIFIED: ${{ steps.changed-files.outputs.any_modified }}
         run: |
           echo "========== ADDED_FILES"
           for file in ${ADDED_FILES}; do
@@ -71,42 +73,70 @@ jobs:
           for file in ${UNKNOWN_FILES}; do
             echo "$file"
           done
-
-      - name: Update README
+          echo ""
+          echo "----------- ANY_MODIFIED"
+          for file in ${ANY_MODIFIED}; do
+            echo "$file"
+          done
+          
+      - name: Read the First Line
         env:
-          ADDED_FILES: ${{ steps.changed-files.outputs.added_files }}
-          DELETED_FILES: ${{ steps.changed-files.outputs.deleted_files }}
-          MODIFIED_FILES: ${{ steps.changed-files.outputs.modified_files }}
-          RENAMED_FILES: ${{ steps.changed-files.outputs.renamed_files }}
-          UNKNOWN_FILES: ${{ steps.changed-files.outputs.unknown_files }}
-        run: |
-          echo "==== ADDED_FILES ===="
-          for file in ${ADDED_FILES}; do
-            file_link="docs/$file_name"
-            echo "$file is added to $file_link"
-            python3 ./helpers/add_to_list.py ./README.md $file $file_link
+          ANY_MODIFIED: ${{ steps.changed-files.outputs.any_modified }}
+        run:
+          for file in ${ANY_MODIFIED}; do
+            python ./helpers/read_files.py $file
           done
-          echo "==== DELETED_FILES ===="
-          for file in ${DELETED_FILES}; do
-            file_link="docs/$file_name"
-            echo "$file is deleted to $file_link"
-            python3 ./helpers/delete_line.py $file ./README.md
-          done
-          echo "==== MODIFIED_FILES ===="
-          for file in ${MODIFIED_FILES}; do
-            file_link="docs/$file_name"
-            echo "$file is modified to $file_link"
-          done
-          echo "==== RENAMED_FILES ===="
-          for file in ${RENAMED_FILES}; do
-            file_link="docs/$file_name"
-            echo "$file is renamed"
-          done
-          echo "==== UNKNOWN_FILES ===="
-          for file in ${UNKNOWN_FILES}; do
-            file_link="docs/$file_name"
-            echo "$file is unknown"
-          done
+
+        
+
+      # - name: Update README
+      #   env:
+      #     ADDED_FILES: ${{ steps.changed-files.outputs.added_files }}
+      #     DELETED_FILES: ${{ steps.changed-files.outputs.deleted_files }}
+      #     MODIFIED_FILES: ${{ steps.changed-files.outputs.modified_files }}
+      #     RENAMED_FILES: ${{ steps.changed-files.outputs.renamed_files }}
+      #     UNKNOWN_FILES: ${{ steps.changed-files.outputs.unknown_files }}
+      #   run: |
+      #     echo "==== ADDED_FILES ===="
+      #     for file in ${ADDED_FILES}; do
+      #       file_link="docs/$file_name"
+      #       echo "$file is added to $file_link"
+      #       python3 ./helpers/add_to_list.py ./README.md $file $file_link
+      #     done
+      #     echo "==== DELETED_FILES ===="
+      #     for file in ${DELETED_FILES}; do
+      #       file_link="docs/$file_name"
+      #       echo "$file is deleted to $file_link"
+      #       python3 ./helpers/delete_line.py $file ./README.md
+      #     done
+      #     echo "==== MODIFIED_FILES ===="
+      #     for file in ${MODIFIED_FILES}; do
+      #       file_link="docs/$file_name"
+      #       echo "$file is modified to $file_link"
+      #     done
+      #     echo "==== RENAMED_FILES ===="
+      #     for file in ${RENAMED_FILES}; do
+      #       file_link="docs/$file_name"
+      #       echo "$file is renamed"
+      #     done
+      #     echo "==== UNKNOWN_FILES ===="
+      #     for file in ${UNKNOWN_FILES}; do
+      #       file_link="docs/$file_name"
+      #       echo "$file is unknown"
+      #     done
+
+
+
+
+      # - name: Commit and Push Changes
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      #   run: |
+      #     git config --global user.name "${{ github.actor }}"
+      #     git config --global user.email "${{ github.actor }}23@gmail.com"
+      #     git add -A
+      #     git commit -m "auto update README.md"
+      #     git push origin main
 
 
       # - name: Get file name
@@ -153,15 +183,5 @@ jobs:
       # - name: Run write_readme.py
       #   run: |
       #     python ./write_readme.py
-
-      # - name: Commit and Push Changes
-      #   env:
-      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      #   run: |
-      #     git config --global user.name "${{ github.actor }}"
-      #     git config --global user.email "${{ github.actor }}23@gmail.com"
-      #     git add -A
-      #     git commit -m "auto update README.md"
-      #     git push origin main
 
             

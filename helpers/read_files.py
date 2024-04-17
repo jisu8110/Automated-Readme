@@ -1,0 +1,18 @@
+import argparse
+
+def read_line(file_path):
+
+    with open(file_path, 'r') as file:
+        first_line = file.readline()
+        print(f"-- {file_path}")
+        print("First line of the file:", first_line.strip())  # strip()으로 개행 문자 제거
+        
+def main():
+    parser = argparse.ArgumentParser(description="Read a first line of the file.")
+    parser.add_argument("file_path", type=str, help="Path to the target file")
+    args = parser.parse_args()
+
+    read_line(file_path=args.file_path)
+
+if __name__ == "__main__":
+    main()
