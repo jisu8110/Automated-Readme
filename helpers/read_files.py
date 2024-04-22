@@ -45,7 +45,7 @@ def add_line(column_names, added_dir_groups):
 
         readme_path = os.path.join(dir_name, "README.md")
         if os.path.exists(readme_path):
-            print(f"=== open readme: {file_path}")
+            print(f"=== open readme: {readme_path}")
             with open(readme_path, 'r') as file:
                 markdown_text = file.read()
                 print(f" markdown : {markdown_text}")
@@ -88,7 +88,11 @@ def delete_line(column_names, deleted_dir_groups):
             print(f"=== open readme: {file_path}")
             with open(readme_path, 'r') as file:
                 markdown_text = file.read()
+                print(f" markdown : {markdown_text}")
+
                 table_data = extract_table_data(markdown_text)
+                print(f" table data : {table_data}")
+
                 df_original = pd.DataFrame(table_data, columns=column_names)
                 print(f"===original df===")
                 print(df_original)
