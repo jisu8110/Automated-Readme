@@ -33,6 +33,7 @@ def add_line(column_names, file_paths):
             file_names.append(file_name)
 
             if os.path.exists(file_path):
+                print(f"=== open file: {file_path}")
                 with open(file_path, 'r') as file:
                     first_line = file.readline().strip()
                     first_lines.append(preprocessing_des(first_line))
@@ -41,6 +42,7 @@ def add_line(column_names, file_paths):
 
         readme_path = os.path.join(dir_name, "README.md")
         if os.path.exists(readme_path):
+            print(f"=== open readme: {file_path}")
             with open(readme_path, 'r') as file:
                 markdown_text = file.read()
                 table_data = extract_table_data(markdown_text)
