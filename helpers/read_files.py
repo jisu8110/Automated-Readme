@@ -21,23 +21,25 @@ def extract_table_data(markdown_text):
 def add_line(column_names, file_paths):
     print("[[[ fisrt file_paths ]]]")
     print(type(file_paths))
+    print(len(file_paths))
     print(file_paths)
+    file_paths_list = file_paths.split()
 
     dir_groups = {}
     
     print("[[[ for file_paths ]]]")
-    for file_path in file_paths:
+    for file_path in file_paths_list:
         print(file_path)
         dir_name = os.path.dirname(file_path)
         dir_groups.setdefault(dir_name, []).append(file_path)
     print("[[[ dir_groups ]]]")
     print(dir_groups)
 
-    for dir_name, file_paths in dir_groups.items():
+    for dir_name, file_paths_list in dir_groups.items():
         file_names = []
         first_lines = []
 
-        for file_path in file_paths:
+        for file_path in file_paths_list:
             file_name = os.path.basename(file_path)
             file_names.append(file_name)
 
@@ -57,7 +59,7 @@ def add_line(column_names, file_paths):
                 table_data = extract_table_data(markdown_text)
                 df_original = pd.DataFrame(table_data, columns=column_names)
                 df_new = pd.DataFrame({
-                    column_names[0]: "[{}]({})".format(file_names, file_paths),
+                    column_names[0]: "[{}]({})".format(file_names, file_paths_list),
                     column_names[1]: first_lines 
                 })
                 df_original = pd.concat([df_original, df_new]).sort_values(by=column_names[0]).reset_index(drop=True)
