@@ -91,7 +91,11 @@ def delete_line(column_names, deleted_dir_groups):
 
                 ###############################################
                 for file_name in file_names:
-                    df_original = df_original[~df_original[column_names[0]].str.contains(f"[{file_name}]")]
+                    # df_original = df_original[~df_original[column_names[0]].str.contains(f"[{file_name}]")]
+                    df_original = df_original[df_original[column_names[0]].str.contains({file_name}) == False]
+                    
+                # df = df[~df['a'].str.contains('|'.join(words))]
+
                 ###############################################
             
                 df_markdown = df_original.to_markdown(index=False)
