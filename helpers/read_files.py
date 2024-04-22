@@ -29,6 +29,7 @@ def add_line(column_names, added_dir_groups):
     for dir_name, file_paths_list in added_dir_groups.items():
         file_names = []
         first_lines = []
+        file_info = []
 
         for file_path in file_paths_list:
             file_name = os.path.basename(file_path)
@@ -51,7 +52,9 @@ def add_line(column_names, added_dir_groups):
                 df_original = pd.DataFrame(table_data, columns=column_names)
 
                 ###############################################
-                file_info = ["[{}](./{})".format(file_name, file_name) for file_name in zip(file_names, file_names)]
+                for file_name in file_names:
+                    file_info.append(f"[{file_name}](./{file_name})")
+                # file_info = ["[{}](./{})".format(file_name, file_name) for file_name in zip(file_names, file_names)]
                 print("[[[ file_info ]]]")
                 print(file_info)
                 print("[[[ first_lines ]]]")
@@ -140,6 +143,7 @@ def rename_line(column_names, renamed_dir_groups):
     for dir_name, file_paths_list in renamed_dir_groups.items():
         file_names = []
         first_lines = []
+        file_info = []
 
         for file_path in file_paths_list:
             file_name = os.path.basename(file_path)
@@ -162,7 +166,9 @@ def rename_line(column_names, renamed_dir_groups):
                 df_original = pd.DataFrame(table_data, columns=column_names)
 
                 ###############################################
-                file_info = ["[{}](./{})".format(file_name, file_name) for file_name in zip(file_names, file_names)]
+                for file_name in file_names:
+                    file_info.append(f"[{file_name}](./{file_name})")
+                # file_info = ["[{}](./{})".format(file_name, file_name) for file_name in zip(file_names, file_names)]
                 for i in range(len(file_names)):
                     target_row = df_original[column_names[1]].str.contains(f"{first_lines[i]}")
                     df_original.loc[target_row, column_names[0]] = file_info[i]
