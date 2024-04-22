@@ -95,7 +95,7 @@ def main():
 
     column_names = ["File Name", "Description"]
 
-    add_line(column_names, added_files = args.added_files)
+    add_line(column_names, args.added_files)
     # delete_line(column_names, deleted_files = args.deleted_files)
     # modify_line(column_names, modified_files = args.modified_files)
     # rename_line(column_names, renamed_files = args.renamed_files)
