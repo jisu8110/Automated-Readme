@@ -91,7 +91,7 @@ jobs:
           echo ""
 
           echo "Processing ..."
-          python ./helpers/read_files.py "$ADDED_FILES_LIST" "$DELETED_FILES_LIST" "$MODIFIED_FILES_LIST" "$RENAMED_FILES_LIST"
+          python ./helpers/read_files.py $ADDED_FILES_LIST "$DELETED_FILES_LIST" "$MODIFIED_FILES_LIST" "$RENAMED_FILES_LIST"
           
           # echo "========== FILE_LIST"
           # # FILE_LIST 배열 출력
