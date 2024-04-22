@@ -7,12 +7,12 @@ name: Update README
 on:
   push:
     branches: [ main ]
-    paths:
-      - 'example code/*'
+    # paths:
+    #   - 'example code/*'
   pull_request:
     branches: [ main ]
-    paths:
-      - 'example code/*'
+    # paths:
+    #   - 'example code/*'
 
 jobs:
   update-readme: # 이름 자유 아무거나
