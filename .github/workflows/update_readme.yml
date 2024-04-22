@@ -66,25 +66,25 @@ jobs:
           RENAMED_FILES_LIST=()
 
           echo "========== ADDED_FILES"
-          for file in ${ADDED_FILES}; do
+          for file in "${ADDED_FILES[@]}"; do
             echo "$file"
             ADDED_FILES_LIST+=("$file")
           done
 
           echo "========== DELETED_FILES"
-          for file in ${DELETED_FILES}; do
+          for file in "${DELETED_FILES[@]}"; do
             echo "$file"
             DELETED_FILES_LIST+=("$file")
           done
 
           echo "========== MODIFIED_FILES"
-          for file in ${MODIFIED_FILES}; do
+          for file in "${MODIFIED_FILES[@]}"; do
             echo "$file"
             MODIFIED_FILES_LIST+=("$file")
           done
 
           echo "========== RENAMED_FILES"
-          for file in ${RENAMED_FILES}; do
+          for file in "${RENAMED_FILES[@]}"; do
             echo "$file"
             RENAMED_FILES_LIST+=("$file")
           done
