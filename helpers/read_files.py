@@ -19,8 +19,15 @@ def extract_table_data(markdown_text):
     return table_data
 
 def add_line(column_names, file_paths):
+    print("[[[ fisrt file_paths ]]]")
+    print(file_paths)
+
+
     dir_groups = {}
+    
+    print("[[[ for file_paths ]]]")
     for file_path in file_paths:
+        print(file_path)
         dir_name = os.path.dirname(file_path)
         dir_groups.setdefault(dir_name, []).append(file_path)
     print("[[[ dir_groups ]]]")
