@@ -58,8 +58,14 @@ def add_line(column_names, file_paths):
                 markdown_text = file.read()
                 table_data = extract_table_data(markdown_text)
                 df_original = pd.DataFrame(table_data, columns=column_names)
+
+                file_info = ["[{}]({})".format(file_name, file_path) for file_name, file_path in zip(file_names, file_paths_list)]
+                print("[[[ file_info ]]]")
+                print(file_info)
+                print("[[[ first_lines ]]]")
+                print(first_lines)
                 df_new = pd.DataFrame({
-                    column_names[0]: "[{}]({})".format(file_names, file_paths_list),
+                    column_names[0]: file_info,
                     column_names[1]: first_lines 
                 })
                 df_original = pd.concat([df_original, df_new]).sort_values(by=column_names[0]).reset_index(drop=True)
@@ -109,9 +115,9 @@ def main():
     column_names = ["File Name", "Description"]
 
     add_line(column_names, args.added_files)
-    # delete_line(column_names, deleted_files = args.deleted_files)
-    # modify_line(column_names, modified_files = args.modified_files)
-    # rename_line(column_names, renamed_files = args.renamed_files)
+    # delete_line(column_names, args.deleted_files)
+    # modify_line(column_names, args.modified_files)
+    # rename_line(column_names, args.renamed_files)
     
 
 if __name__ == "__main__":
