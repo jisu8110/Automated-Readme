@@ -88,10 +88,15 @@ def delete_line(column_names, deleted_dir_groups):
                 markdown_text = file.read()
                 table_data = extract_table_data(markdown_text)
                 df_original = pd.DataFrame(table_data, columns=column_names)
+                print(f"===original df===")
+                print(df_original)
 
                 ###############################################
                 for file_name in file_names:
-                    df_original = df_original[~df_original[column_names[0]].str.contains(f"[{file_name}]")]
+                    escaped_file_name = re.escape(file_name)
+                    df_original = df_original[~df_original[column_names[0]].str.contains(f"{escaped_file_name}")]
+
+                    # df_original = df_original[~df_original[column_names[0]].str.contains(f"[{file_name}]")]
                     print(f"file_name : {file_name}")
                     print(df_original)
                     # df_original = df_original[df_original[column_names[0]].str.contains({file_name}) == False]
