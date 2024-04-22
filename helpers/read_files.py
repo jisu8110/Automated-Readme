@@ -20,8 +20,8 @@ def extract_table_data(markdown_text):
 
 def add_line(column_names, file_paths):
     print("[[[ fisrt file_paths ]]]")
+    print(type(file_paths))
     print(file_paths)
-
 
     dir_groups = {}
     
