@@ -44,7 +44,7 @@ def add_line(column_names, file_paths):
             with open(readme_path, 'r') as file:
                 markdown_text = file.read()
                 table_data = extract_table_data(markdown_text)
-                df_original = pd.Dataframe(table_data, columns=column_names)
+                df_original = pd.DataFrame(table_data, columns=column_names)
                 df_new = pd.DataFrame({
                     column_names[0]: "[{}]({})".format(file_names, file_paths),
                     column_names[1]: first_lines 
