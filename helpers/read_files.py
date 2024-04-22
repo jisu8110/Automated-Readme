@@ -23,6 +23,8 @@ def add_line(column_names, file_paths):
     for file_path in file_paths:
         dir_name = os.path.dirname(file_path)
         dir_groups.setdefault(dir_name, []).append(file_path)
+    print("[[[ dir_groups ]]]")
+    print(dir_groups)
 
     for dir_name, file_paths in dir_groups.items():
         file_names = []
