@@ -8,11 +8,11 @@ on:
   push:
     branches: [ main ]
     paths:
-      - 'example code/'
+      - 'example code/*'
   pull_request:
     branches: [ main ]
     paths:
-      - 'example code/'
+      - 'example code/*'
 
 jobs:
   update-readme: # 이름 자유 아무거나
