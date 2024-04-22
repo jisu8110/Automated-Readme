@@ -7,16 +7,12 @@ name: Update README
 on:
   push:
     branches: [ main ]
-    # paths: 
-    #   - 'docs/Python/*.py'
-    #   - 'docs/CPP/*.cpp'
-    #   - 'docs/CSharp/*.cs'
+    paths:
+      - 'example code/'
   pull_request:
     branches: [ main ]
-    # paths: 
-    #   - 'docs/Python/*.py'
-    #   - 'docs/CPP/*.cpp'
-    #   - 'docs/CSharp/*.cs'
+    paths:
+      - 'example code/'
 
 jobs:
   update-readme: # 이름 자유 아무거나
@@ -29,10 +25,12 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+
       - name: Set up Python ${{ matrix.python-version }}
         uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.python-version }}
+
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
@@ -49,85 +47,58 @@ jobs:
           DELETED_FILES: ${{ steps.changed-files.outputs.deleted_files }}
           MODIFIED_FILES: ${{ steps.changed-files.outputs.modified_files }}
           RENAMED_FILES: ${{ steps.changed-files.outputs.renamed_files }}
-          UNKNOWN_FILES: ${{ steps.changed-files.outputs.unknown_files }}
-
-          ANY_MODIFIED: ${{ steps.changed-files.outputs.any_modified }}
         run: |
-          FILE_LIST=()
+          ADDED_FILES_LIST=()
+          DELETED_FILES_LIST=()
+          MODIFIED_FILES_LIST=()
+          RENAMED_FILES_LIST=()
 
           echo "========== ADDED_FILES"
           for file in ${ADDED_FILES}; do
             echo "$file"
-            FILE_LIST+=("$file")
+            ADDED_FILES_LIST+=("$file")
           done
+
           echo "========== DELETED_FILES"
           for file in ${DELETED_FILES}; do
             echo "$file"
-            FILE_LIST+=("$file")
+            DELETED_FILES_LIST+=("$file")
           done
+
           echo "========== MODIFIED_FILES"
           for file in ${MODIFIED_FILES}; do
             echo "$file"
-            FILE_LIST+=("$file")
+            MODIFIED_FILES_LIST+=("$file")
           done
+
           echo "========== RENAMED_FILES"
           for file in ${RENAMED_FILES}; do
             echo "$file"
-            FILE_LIST+=("$file")
-          done
-          echo "========== UNKNOWN_FILES"
-          for file in ${UNKNOWN_FILES}; do
-            echo "$file"
-            FILE_LIST+=("$file")
+            RENAMED_FILES_LIST+=("$file")
           done
           echo ""
-          
-          echo "========== FILE_LIST"
-          # FILE_LIST 배열 출력
-          for file in "${FILE_LIST[@]}"; do
-            echo "$file"
-          done
 
-          # for file in ${FILE_LISTS}; do
-          #   echo "\t for $file"
-          #   python ./helpers/read_files.py $file
+          echo "Processing ..."
+          python ./helpers/read_files.py "$ADDED_FILES_LIST" "$DELETED_FILES_LIST" "$MODIFIED_FILES_LIST" "$RENAMED_FILES_LIST"
+          
+          # echo "========== FILE_LIST"
+          # # FILE_LIST 배열 출력
+          # for file in "${FILE_LIST[@]}"; do
+          #   echo "$file"
           # done
 
-          # FILE_LIST 배열의 모든 파일에 대해 작업 수행
-          for file in "${FILE_LIST[@]}"; do
-            echo "Processing $file"
-            python ./helpers/read_files.py "$file"
-          done
-
-
-          # FILE_LISTS=("${ADDED_FILES}" "${DELETED_FILES}" "${MODIFIED_FILES}" "${RENAMED_FILES}" "${UNKNOWN_FILES}")
-          # for file_list in ${FILE_LIST}; do
-          #   for file in ${file_list}; do
-          #     python ./helpers/read_files.py $file
-          #   done
+          # for file in "${FILE_LIST[@]}"; do
+          #   echo "Processing $file"
+          #   python ./helpers/read_files.py "$file"
           # done
 
-
-
-      # - name: Commit and Push Changes
-      #   env:
-      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      #   run: |
-      #     git config --global user.name "${{ github.actor }}"
-      #     git config --global user.email "${{ github.actor }}23@gmail.com"
-      #     git add -A
-      #     git commit -m "auto update README.md"
-      #     git push origin main
-          
-    # - name: Set up Python 3.10
-    #   uses: actions/setup-python@v3
-    #   with:
-    #     python-version: "3.10"
-    # - name: Install dependencies
-    #   run: |
-    #     python -m pip install --upgrade pip
-    #     pip install flake8 pytest
-        # if [ -f ./.github/config/requirements.txt ]; then pip install -r ./.github/config/requirements.txt; fi 
-        
-
+      - name: Commit and Push Changes
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          git config --global user.name "${{ github.actor }}"
+          git config --global user.email "${{ github.actor }}23@gmail.com"
+          git add -A
+          git commit -m "auto update README.md"
+          git push origin main
             
