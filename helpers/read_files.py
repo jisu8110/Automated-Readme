@@ -133,8 +133,10 @@ def modify_line(column_names, modified_dir_groups):
                 df_original = extract_table_data(markdown_text)
 
                 for i in range(len(file_names)):
-                    target_row = df_original[column_names[0]].str.contains(f"[{file_names[i]}]")
-                    df_original.loc[target_row, column_names[1]] = first_lines[i]
+                    target_rows = df_original[column_names[0]].str.contains(f"[{file_names[i]}]")
+                    # df_original.loc[target_row, column_names[1]] = first_lines[i]
+                    for row_index in target_rows:
+                        df_original.loc[row_index, column_names[1]] = first_lines[i]
                 ###############################################
             
                 df_markdown = df_original.to_markdown(index=False)
