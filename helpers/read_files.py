@@ -30,9 +30,7 @@ def extract_table_data(markdown_text):
         df.index = range(0, len(df))
     else:
         df = pd.DataFrame(columns=column_names)
-
     return df
-
 
 def group_files_by_directory(file_paths_list):
     dir_groups = {}
@@ -74,9 +72,7 @@ def add_line(column_names, added_dir_groups):
                     column_names[1]: first_lines 
                 })
                 df_original = pd.concat([df_original, df_new]).sort_values(by=column_names[1]).reset_index(drop=True)
-            
                 df_markdown = df_original.to_markdown(index=False)
-
             with open(readme_path, 'w+') as file:
                 file.write(df_markdown)
         else:
@@ -95,16 +91,12 @@ def delete_line(column_names, deleted_dir_groups):
             print(f"=== open readme: {readme_path}")
             with open(readme_path, 'r') as file:
                 markdown_text = file.read()
-                print(f" markdown : {markdown_text}")
                 df_original = extract_table_data(markdown_text)
-
                 for file_name in file_names:
                     escaped_file_name = re.escape(file_name)
                     df_original = df_original[~df_original[column_names[0]].str.contains(f"{escaped_file_name}")]
-                    # df_original = df_original[~df_original[column_names[0]].str.contains(f"{file_name}")]
 
                 df_markdown = df_original.to_markdown(index=False)  
-
             with open(readme_path, 'w+') as file:
                 file.write(df_markdown)
         else:
@@ -135,14 +127,11 @@ def modify_line(column_names, modified_dir_groups):
                 df_original = extract_table_data(markdown_text)
                 for i, file_name in enumerate(file_names):
                     target_row = df_original[df_original[column_names[0]].str.contains(file_name)].index
-
                     if not target_row.empty:
                         print(f"target_row : {target_row}")
                         df_original.at[target_row[0], column_names[1]] = first_lines[i]
                     else:
                         print("Target row is empty.")
-
-            
                 df_markdown = df_original.to_markdown(index=False)
 
             with open(readme_path, 'w+') as file:
@@ -154,7 +143,6 @@ def rename_line(column_names, renamed_dir_groups):
     for dir_name, file_paths_list in renamed_dir_groups.items():
         file_names = []
         first_lines = []
-        # file_info = []
 
         for file_path in file_paths_list:
             file_name = os.path.basename(file_path)
@@ -183,16 +171,6 @@ def rename_line(column_names, renamed_dir_groups):
                         df_original.at[target_row[0], column_names[0]] = f"[{file_name}](./{file_name})"
                     else:
                         print("Target row is empty.")
-
-
-                ###############################################
-                # for file_name in file_names:
-                #     file_info.append(f"[{file_name}](./{file_name})")
-                # # file_info = ["[{}](./{})".format(file_name, file_name) for file_name in zip(file_names, file_names)]
-                # for i in range(len(file_names)):
-                #     target_row = df_original[column_names[1]].str.contains(f"{first_lines[i]}")
-                #     df_original.loc[target_row, column_names[0]] = file_info[i]
-                ###############################################
             
                 df_markdown = df_original.to_markdown(index=False)
 

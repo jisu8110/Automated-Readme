@@ -6,13 +6,13 @@ name: Update README
 # This one triggers whenever we push changes to docs/ directory
 on:
   push:
+    paths:
+      - 'example code/**'
     branches: [ main ]
-    # paths:
-    #   - 'example code/*'
-  pull_request:
+  pull_request:    
+    paths:
+      - 'example code/**'
     branches: [ main ]
-    # paths:
-    #   - 'example code/*'
 
 jobs:
   update-readme: 
@@ -31,11 +31,6 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
 
-      # - name: Install dependencies
-      #   run: |
-      #     python -m pip install --upgrade pip
-      #     pip install python-leetcode
-
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
@@ -53,7 +48,7 @@ jobs:
         uses: tj-actions/changed-files@v44
         # REF: https://github.com/marketplace/actions/changed-files
 
-      - name: List all changed files
+      - name: Processing about changed files
         env:
           ADDED_FILES: ${{ steps.changed-files.outputs.added_files }}
           DELETED_FILES: ${{ steps.changed-files.outputs.deleted_files }}
@@ -91,20 +86,7 @@ jobs:
           echo ""
 
           echo "Processing ..."
-          # python ./helpers/read_files.py "${ADDED_FILES_LIST[@]}" "${DELETED_FILES_LIST[@]}" "${MODIFIED_FILES_LIST[@]}" "${RENAMED_FILES_LIST[@]}"
           python ./helpers/read_files.py "${ADDED_FILES_LIST[@]:-}" "${DELETED_FILES_LIST[@]:-}" "${MODIFIED_FILES_LIST[@]:-}" "${RENAMED_FILES_LIST[@]:-}"
-
-
-          # echo "========== FILE_LIST"
-          # # FILE_LIST 배열 출력
-          # for file in "${FILE_LIST[@]}"; do
-          #   echo "$file"
-          # done
-
-          # for file in "${FILE_LIST[@]}"; do
-          #   echo "Processing $file"
-          #   python ./helpers/read_files.py "$file"
-          # done
 
       - name: Commit and Push Changes
         env:
