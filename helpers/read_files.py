@@ -1,4 +1,5 @@
 import pandas as pd
+from io import StringIO
 import argparse
 import os
 import re
@@ -12,11 +13,28 @@ def preprocessing_des(text):
     des = des.lstrip()
     return des
 
+# def extract_table_data(markdown_text):
+#     pattern = r'\|(.+)\|(.+)\|\n\|[-]+\|[-]+\|(.+)\|'
+#     matches = re.findall(pattern, markdown_text, re.MULTILINE)
+#     table_data = [(name.strip(), description.strip()) for name, description, _ in matches]
+#     return table_data
+
 def extract_table_data(markdown_text):
-    pattern = r'\|(.+)\|(.+)\|\n\|[-]+\|[-]+\|(.+)\|'
+    pattern = r'\| \[([^]]+)\]\(([^)]+)\) \|([^|]+)\|'
     matches = re.findall(pattern, markdown_text, re.MULTILINE)
-    table_data = [(name.strip(), description.strip()) for name, description, _ in matches]
-    return table_data
+    table_data = [(f"[{name}]({link})", description.strip()) for name, link, description in matches]
+    
+    df_new = pd.read_csv(
+                    StringIO(markdown_text.replace(' ', ' ')),  
+                    sep='|',
+                    index_col=1
+                ).dropna(
+                    axis=1,
+                    how='all'
+                ).iloc[1:]
+
+    return df_new
+
 
 def group_files_by_directory(file_paths_list):
     dir_groups = {}
@@ -90,12 +108,15 @@ def delete_line(column_names, deleted_dir_groups):
                 markdown_text = file.read()
                 print(f" markdown : {markdown_text}")
 
-                table_data = extract_table_data(markdown_text)
-                print(f" table data : {table_data}")
+                df_original = extract_table_data(markdown_text)
 
-                df_original = pd.DataFrame(table_data, columns=column_names)
-                print(f"===original df===")
-                print(df_original)
+
+                # table_data = extract_table_data(markdown_text)
+                # print(f" table data : {table_data}")
+
+                # df_original = pd.DataFrame(table_data, columns=column_names)
+                # print(f"===original df===")
+                # print(df_original)
 
                 ###############################################
                 for file_name in file_names:
@@ -103,8 +124,8 @@ def delete_line(column_names, deleted_dir_groups):
                     df_original = df_original[~df_original[column_names[0]].str.contains(f"{escaped_file_name}")]
 
                     # df_original = df_original[~df_original[column_names[0]].str.contains(f"[{file_name}]")]
-                    print(f"file_name : {file_name}")
-                    print(df_original)
+                    # print(f"file_name : {file_name}")
+                    # print(df_original)
                     # df_original = df_original[df_original[column_names[0]].str.contains({file_name}) == False]
                     
                 # df_original = df_original[~df_original[column_names[0]].str.contains('|'.join(file_names))]
@@ -112,7 +133,7 @@ def delete_line(column_names, deleted_dir_groups):
                 ###############################################
                 # print()
             
-                df_markdown = df_original.to_markdown(index=False)
+                df_markdown = df_original.to_markdown() # index=False
 
             with open(readme_path, 'w+') as file:
                 file.write(df_markdown)
