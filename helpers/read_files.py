@@ -132,11 +132,17 @@ def modify_line(column_names, modified_dir_groups):
                 markdown_text = file.read()
                 df_original = extract_table_data(markdown_text)
 
-                for i in range(len(file_names)):
-                    target_rows = df_original[column_names[0]].str.contains(f"[{file_names[i]}]")
-                    # df_original.loc[target_row, column_names[1]] = first_lines[i]
-                    for row_index in target_rows:
-                        df_original.at[row_index, column_names[1]] = first_lines[i]
+                for i, file_name in enumerate(file_names):
+                    target_row = df_original[df_original[column_names[0]] == file_name].index
+                    if not target_row.empty:
+                        df_original.at[target_row[0], column_names[1]] = first_lines[i]
+
+
+                # for i in range(len(file_names)):
+                #     target_rows = df_original[column_names[0]].str.contains(f"[{file_names[i]}]")
+                #     # df_original.loc[target_row, column_names[1]] = first_lines[i]
+                #     for row_index in target_rows:
+                #         df_original.at[row_index, column_names[1]] = first_lines[i]
                 ###############################################
             
                 df_markdown = df_original.to_markdown(index=False)
