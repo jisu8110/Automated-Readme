@@ -136,7 +136,7 @@ def modify_line(column_names, modified_dir_groups):
                     target_text = f"[{file_name}](./{file_name})"
                     print(f"target_text : {target_text}")
                     target_row = df_original[df_original[column_names[0]] == target_text].index
-                    print(f"target_row : {target_row}")
+                    print(f"target_row : {target_row[0]}")
                     if not target_row.empty:
                         df_original.at[target_row[0], column_names[1]] = first_lines[i]
 
