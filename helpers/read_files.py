@@ -27,7 +27,7 @@ def extract_table_data(markdown_text):
                         how='all'
                     ).iloc[1:]
         df = df.rename(columns=dict(zip(df.columns, column_names)))
-        df.index = range(0, len(df))
+        # df.index = range(0, len(df))
     else:
         df = pd.DataFrame(columns=column_names)
 
@@ -136,9 +136,6 @@ def modify_line(column_names, modified_dir_groups):
 
                 print(f"\ncol 0 : \n{df_original[column_names[0]]}")
                 for i, file_name in enumerate(file_names):
-                    # target_text = f"[{file_name}](./{file_name})"
-                    # print(f"target_text : {target_text}")
-                    # target_row = df_original[df_original[column_names[0]] == target_text].index
                     target_row = df_original[df_original[column_names[0]].str.contains(file_name)].index
 
                     if not target_row.empty:
