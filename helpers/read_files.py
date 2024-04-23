@@ -25,9 +25,9 @@ def extract_table_data(markdown_text):
     # table_data = [(f"[{name}]({link})", description.strip()) for name, link, description in matches]
     
     df_new = pd.read_csv(
-                    StringIO(markdown_text.replace(' ', ' ')),  
+                    StringIO(markdown_text.replace(' ', ' ')),  # Get rid of whitespaces
                     sep='|',
-                    index_col=1
+                    index_col=0
                 ).dropna(
                     axis=1,
                     how='all'
@@ -67,9 +67,11 @@ def add_line(column_names, added_dir_groups):
             with open(readme_path, 'r') as file:
                 markdown_text = file.read()
                 print(f" markdown : {markdown_text}")
-                table_data = extract_table_data(markdown_text)
-                print(f" table data : {table_data}")
-                df_original = pd.DataFrame(table_data, columns=column_names)
+                df_original = extract_table_data(markdown_text)
+
+                # table_data = extract_table_data(markdown_text)
+                # print(f" table data : {table_data}")
+                # df_original = pd.DataFrame(table_data, columns=column_names)
 
                 ###############################################
                 for file_name in file_names:
@@ -133,7 +135,7 @@ def delete_line(column_names, deleted_dir_groups):
                 ###############################################
                 # print()
             
-                df_markdown = df_original.to_markdown() # index=False
+                df_markdown = df_original.to_markdown(index=False) # 
 
             with open(readme_path, 'w+') as file:
                 file.write(df_markdown)

@@ -32,16 +32,16 @@ def main():
         df_new = pd.read_csv(
                     StringIO(markdown_text.replace(' ', ' ')),  # Get rid of whitespaces
                     sep='|',
-                    index_col=1
+                    index_col=0
                 ).dropna(
                     axis=1,
                     how='all'
                 ).iloc[1:]
         print(f"\ndf_new : \n{df_new}")
+        print(f"\ncol: {df_new.columns}")
 
-        df_markdown = df_new.to_markdown() #index=False
+        df_markdown = df_new.to_markdown(index=False) #
         print(f"\ndf_markdown : \n{df_markdown}")
-
         # df = pd.DataFrame(table_data, columns=['File Name', 'Description'])
         # print(f"df : \n{df.head()}")
         
