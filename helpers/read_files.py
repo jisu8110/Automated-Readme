@@ -131,8 +131,9 @@ def modify_line(column_names, modified_dir_groups):
             with open(readme_path, 'r') as file:
                 markdown_text = file.read()
                 df_original = extract_table_data(markdown_text)
+                print(f"\ndf_original : \n{df_original}")
 
-                print(f"col 0 : {df_original[column_names[0]]}")
+                print(f"\ncol 0 : \n{df_original[column_names[0]]}")
                 for i, file_name in enumerate(file_names):
                     target_text = f"[{file_name}](./{file_name})"
                     print(f"target_text : {target_text}")
