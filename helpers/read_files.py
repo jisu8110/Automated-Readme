@@ -132,9 +132,6 @@ def modify_line(column_names, modified_dir_groups):
             with open(readme_path, 'r') as file:
                 markdown_text = file.read()
                 df_original = extract_table_data(markdown_text)
-                print(f"\ndf_original : \n{df_original}")
-
-                print(f"\ncol 0 : \n{df_original[column_names[0]]}")
                 for i, file_name in enumerate(file_names):
                     target_row = df_original[df_original[column_names[0]].str.contains(file_name)].index
 
@@ -177,13 +174,23 @@ def rename_line(column_names, renamed_dir_groups):
                 markdown_text = file.read()
                 df_original = extract_table_data(markdown_text)
 
+                for i, file_name in enumerate(file_names):
+                    target_row = df_original[df_original[column_names[1]].str.contains(first_line[i])].index
+
+                    if not target_row.empty:
+                        print(f"target_row : {target_row}")
+                        df_original.at[target_row[0], column_names[0]] = f"[{file_name}](./{file_name})"
+                    else:
+                        print("Target row is empty.")
+
+
                 ###############################################
-                for file_name in file_names:
-                    file_info.append(f"[{file_name}](./{file_name})")
-                # file_info = ["[{}](./{})".format(file_name, file_name) for file_name in zip(file_names, file_names)]
-                for i in range(len(file_names)):
-                    target_row = df_original[column_names[1]].str.contains(f"{first_lines[i]}")
-                    df_original.loc[target_row, column_names[0]] = file_info[i]
+                # for file_name in file_names:
+                #     file_info.append(f"[{file_name}](./{file_name})")
+                # # file_info = ["[{}](./{})".format(file_name, file_name) for file_name in zip(file_names, file_names)]
+                # for i in range(len(file_names)):
+                #     target_row = df_original[column_names[1]].str.contains(f"{first_lines[i]}")
+                #     df_original.loc[target_row, column_names[0]] = file_info[i]
                 ###############################################
             
                 df_markdown = df_original.to_markdown(index=False)
