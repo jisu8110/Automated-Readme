@@ -174,8 +174,8 @@ def rename_line(column_names, renamed_dir_groups):
                 markdown_text = file.read()
                 df_original = extract_table_data(markdown_text)
                 for i, file_name in enumerate(file_names):
-                    target_row = df_original[df_original[column_names[1]].str.contains(first_line[i])].index
-                    print(f"first line {i}: {first_line[i]}")
+                    target_row = df_original[df_original[column_names[1]].str.contains(first_lines[i])].index
+                    print(f"first line {i}: {first_lines[i]}")
 
                     if not target_row.empty:
                         print(f"target_row : {target_row}")
