@@ -67,7 +67,10 @@ def add_line(column_names, added_dir_groups):
             with open(readme_path, 'r') as file:
                 markdown_text = file.read()
                 print(f" markdown : {markdown_text}")
-                df_original = extract_table_data(markdown_text)
+                if markdown_text != None:
+                    df_original = extract_table_data(markdown_text)
+                else:
+                    df_original = pd.DataFrame(columns=column_names)
 
                 # table_data = extract_table_data(markdown_text)
                 # print(f" table data : {table_data}")
