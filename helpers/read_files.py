@@ -73,7 +73,6 @@ def add_line(column_names, added_dir_groups):
                     column_names[1]: first_lines 
                 })
                 df_original = pd.concat([df_original, df_new]).sort_values(by=column_names[1]).reset_index(drop=True)
-                ###############################################
             
                 df_markdown = df_original.to_markdown(index=False)
 
@@ -96,33 +95,13 @@ def delete_line(column_names, deleted_dir_groups):
             with open(readme_path, 'r') as file:
                 markdown_text = file.read()
                 print(f" markdown : {markdown_text}")
-
                 df_original = extract_table_data(markdown_text)
 
-
-                # table_data = extract_table_data(markdown_text)
-                # print(f" table data : {table_data}")
-
-                # df_original = pd.DataFrame(table_data, columns=column_names)
-                # print(f"===original df===")
-                # print(df_original)
-
-                ###############################################
                 for file_name in file_names:
                     escaped_file_name = re.escape(file_name)
                     df_original = df_original[~df_original[column_names[0]].str.contains(f"{escaped_file_name}")]
 
-                    # df_original = df_original[~df_original[column_names[0]].str.contains(f"[{file_name}]")]
-                    # print(f"file_name : {file_name}")
-                    # print(df_original)
-                    # df_original = df_original[df_original[column_names[0]].str.contains({file_name}) == False]
-                    
-                # df_original = df_original[~df_original[column_names[0]].str.contains('|'.join(file_names))]
-
-                ###############################################
-                # print()
-            
-                df_markdown = df_original.to_markdown(index=False) # 
+                df_markdown = df_original.to_markdown(index=False)  
 
             with open(readme_path, 'w+') as file:
                 file.write(df_markdown)
@@ -151,10 +130,8 @@ def modify_line(column_names, modified_dir_groups):
             print(f"=== open readme: {file_path}")
             with open(readme_path, 'r') as file:
                 markdown_text = file.read()
-                table_data = extract_table_data(markdown_text)
-                df_original = pd.DataFrame(table_data, columns=column_names)
+                df_original = extract_table_data(markdown_text)
 
-                ###############################################
                 for i in range(len(file_names)):
                     target_row = df_original[column_names[0]].str.contains(f"[{file_names[i]}]")
                     df_original.loc[target_row, column_names[1]] = first_lines[i]
@@ -190,8 +167,7 @@ def rename_line(column_names, renamed_dir_groups):
             print(f"=== open readme: {file_path}")
             with open(readme_path, 'r') as file:
                 markdown_text = file.read()
-                table_data = extract_table_data(markdown_text)
-                df_original = pd.DataFrame(table_data, columns=column_names)
+                df_original = extract_table_data(markdown_text)
 
                 ###############################################
                 for file_name in file_names:
