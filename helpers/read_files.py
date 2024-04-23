@@ -37,7 +37,7 @@ def extract_table_data(markdown_text):
                         axis=1,
                         how='all'
                     ).iloc[1:]
-        df_new = df_new.rename(columns=column_names)
+        df_new = df_new.rename(columns=dict(zip(df_new.columns, column_names)))
     else:
         df_new = pd.DataFrame(columns=column_names)
 
