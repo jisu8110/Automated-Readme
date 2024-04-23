@@ -4,6 +4,9 @@ import argparse
 import os
 import re
 
+
+column_names = ["File Name", "Description"]
+
 def preprocessing_des(text):
     des = text.lstrip()
     if des.startswith('#'):
@@ -24,14 +27,17 @@ def extract_table_data(markdown_text):
     # matches = re.findall(pattern, markdown_text, re.MULTILINE)
     # table_data = [(f"[{name}]({link})", description.strip()) for name, link, description in matches]
     
-    df_new = pd.read_csv(
-                    StringIO(markdown_text.replace(' ', ' ')),  # Get rid of whitespaces
-                    sep='|',
-                    index_col=0
-                ).dropna(
-                    axis=1,
-                    how='all'
-                ).iloc[1:]
+    if markdown_text != None:
+        df_new = pd.read_csv(
+                        StringIO(markdown_text.replace(' ', ' ')),  # Get rid of whitespaces
+                        sep='|',
+                        index_col=0
+                    ).dropna(
+                        axis=1,
+                        how='all'
+                    ).iloc[1:]
+    else:
+        df_new = pd.DataFrame(columns=column_names)
 
     return df_new
 
@@ -67,10 +73,8 @@ def add_line(column_names, added_dir_groups):
             with open(readme_path, 'r') as file:
                 markdown_text = file.read()
                 print(f" markdown : {markdown_text}")
-                if markdown_text != None:
-                    df_original = extract_table_data(markdown_text)
-                else:
-                    df_original = pd.DataFrame(columns=column_names)
+                df_original = extract_table_data(markdown_text)
+                    
 
                 # table_data = extract_table_data(markdown_text)
                 # print(f" table data : {table_data}")
@@ -234,7 +238,6 @@ def main():
     parser.add_argument("renamed_files", type=str, help="Path to the renamed files")
     args = parser.parse_args()
 
-    column_names = ["File Name", "Description"]
     
     added_dir_groups = group_files_by_directory(args.added_files.split())
     deleted_dir_groups = group_files_by_directory(args.deleted_files.split())
