@@ -7,11 +7,11 @@ name: Update README
 on:
   push:
     paths:
-      - 'example code/**'
+      - 'example_code/**'
     branches: [ main ]
   pull_request:    
     paths:
-      - 'example code/**'
+      - 'example_code/**'
     branches: [ main ]
 
 jobs:
