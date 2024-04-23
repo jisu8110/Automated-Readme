@@ -94,7 +94,7 @@ def add_line(column_names, added_dir_groups):
                     column_names[0]: file_info,
                     column_names[1]: first_lines 
                 })
-                df_original = pd.concat([df_original, df_new]).sort_values(by=column_names[0]).reset_index(drop=True)
+                df_original = pd.concat([df_original, df_new]).sort_values(by=column_names[1]).reset_index(drop=True)
                 ###############################################
             
                 df_markdown = df_original.to_markdown(index=False)
