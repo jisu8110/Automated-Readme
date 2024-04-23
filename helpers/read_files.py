@@ -28,6 +28,7 @@ def extract_table_data(markdown_text):
     # table_data = [(f"[{name}]({link})", description.strip()) for name, link, description in matches]
     
     if markdown_text.strip():
+        markdown_text = re.sub(r'\s{2,}', ' ', markdown_text)
         df_new = pd.read_csv(
                         StringIO(markdown_text.replace(' ', ' ')),  # Get rid of whitespaces
                         sep='|',
@@ -36,6 +37,7 @@ def extract_table_data(markdown_text):
                         axis=1,
                         how='all'
                     ).iloc[1:]
+        df_new = df_new.rename(columns=column_names)
     else:
         df_new = pd.DataFrame(columns=column_names)
 
