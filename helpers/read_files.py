@@ -133,6 +133,7 @@ def modify_line(column_names, modified_dir_groups):
                 df_original = extract_table_data(markdown_text)
 
                 for i, file_name in enumerate(file_names):
+                    target_text = f"[{file_name}](./{file_name})"
                     target_row = df_original[df_original[column_names[0]] == file_name].index
                     if not target_row.empty:
                         df_original.at[target_row[0], column_names[1]] = first_lines[i]
