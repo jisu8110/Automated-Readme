@@ -153,7 +153,7 @@ def rename_line(column_names, renamed_dir_groups):
     for dir_name, file_paths_list in renamed_dir_groups.items():
         file_names = []
         first_lines = []
-        file_info = []
+        # file_info = []
 
         for file_path in file_paths_list:
             file_name = os.path.basename(file_path)
@@ -173,9 +173,9 @@ def rename_line(column_names, renamed_dir_groups):
             with open(readme_path, 'r') as file:
                 markdown_text = file.read()
                 df_original = extract_table_data(markdown_text)
-
                 for i, file_name in enumerate(file_names):
                     target_row = df_original[df_original[column_names[1]].str.contains(first_line[i])].index
+                    print(f"first line {i}: {first_line[i]}")
 
                     if not target_row.empty:
                         print(f"target_row : {target_row}")
