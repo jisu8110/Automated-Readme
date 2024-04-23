@@ -27,7 +27,7 @@ def extract_table_data(markdown_text):
     # matches = re.findall(pattern, markdown_text, re.MULTILINE)
     # table_data = [(f"[{name}]({link})", description.strip()) for name, link, description in matches]
     
-    if markdown_text != None:
+    if markdown_text.strip():
         df_new = pd.read_csv(
                         StringIO(markdown_text.replace(' ', ' ')),  # Get rid of whitespaces
                         sep='|',
