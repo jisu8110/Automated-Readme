@@ -27,6 +27,7 @@ def extract_table_data(markdown_text):
                         how='all'
                     ).iloc[1:]
         df = df.rename(columns=dict(zip(df.columns, column_names)))
+        df.index = range(0, len(df))
     else:
         df = pd.DataFrame(columns=column_names)
 
