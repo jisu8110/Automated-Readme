@@ -136,7 +136,7 @@ def modify_line(column_names, modified_dir_groups):
                     target_rows = df_original[column_names[0]].str.contains(f"[{file_names[i]}]")
                     # df_original.loc[target_row, column_names[1]] = first_lines[i]
                     for row_index in target_rows:
-                        df_original.loc[row_index, column_names[1]] = first_lines[i]
+                        df_original.at[row_index, column_names[1]] = first_lines[i]
                 ###############################################
             
                 df_markdown = df_original.to_markdown(index=False)
