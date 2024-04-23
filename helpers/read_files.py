@@ -62,7 +62,6 @@ def add_line(column_names, added_dir_groups):
             print(f"=== open readme: {readme_path}")
             with open(readme_path, 'r') as file:
                 markdown_text = file.read()
-                print(f" markdown : {markdown_text}")
                 df_original = extract_table_data(markdown_text)
                     
                 for file_name in file_names:
