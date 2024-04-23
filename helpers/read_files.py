@@ -91,7 +91,7 @@ def delete_line(column_names, deleted_dir_groups):
 
         readme_path = os.path.join(dir_name, "README.md")
         if os.path.exists(readme_path):
-            print(f"=== open readme: {file_path}")
+            print(f"=== open readme: {readme_path}")
             with open(readme_path, 'r') as file:
                 markdown_text = file.read()
                 print(f" markdown : {markdown_text}")
@@ -127,14 +127,16 @@ def modify_line(column_names, modified_dir_groups):
 
         readme_path = os.path.join(dir_name, "README.md")
         if os.path.exists(readme_path):
-            print(f"=== open readme: {file_path}")
+            print(f"=== open readme: {readme_path}")
             with open(readme_path, 'r') as file:
                 markdown_text = file.read()
                 df_original = extract_table_data(markdown_text)
 
                 for i, file_name in enumerate(file_names):
                     target_text = f"[{file_name}](./{file_name})"
+                    print(f"target_text : {target_text}")
                     target_row = df_original[df_original[column_names[0]] == target_text].index
+                    print(f"target_row : {target_row}")
                     if not target_row.empty:
                         df_original.at[target_row[0], column_names[1]] = first_lines[i]
 
@@ -173,7 +175,7 @@ def rename_line(column_names, renamed_dir_groups):
 
         readme_path = os.path.join(dir_name, "README.md")
         if os.path.exists(readme_path):
-            print(f"=== open readme: {file_path}")
+            print(f"=== open readme: {readme_path}")
             with open(readme_path, 'r') as file:
                 markdown_text = file.read()
                 df_original = extract_table_data(markdown_text)
