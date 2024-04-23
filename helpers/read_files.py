@@ -20,9 +20,9 @@ def preprocessing_des(text):
 #     return table_data
 
 def extract_table_data(markdown_text):
-    pattern = r'\| \[([^]]+)\]\(([^)]+)\) \|([^|]+)\|'
-    matches = re.findall(pattern, markdown_text, re.MULTILINE)
-    table_data = [(f"[{name}]({link})", description.strip()) for name, link, description in matches]
+    # pattern = r'\| \[([^]]+)\]\(([^)]+)\) \|([^|]+)\|'
+    # matches = re.findall(pattern, markdown_text, re.MULTILINE)
+    # table_data = [(f"[{name}]({link})", description.strip()) for name, link, description in matches]
     
     df_new = pd.read_csv(
                     StringIO(markdown_text.replace(' ', ' ')),  
