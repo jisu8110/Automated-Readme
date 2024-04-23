@@ -4,7 +4,6 @@ import argparse
 import os
 import re
 
-
 column_names = ["File Name", "Description"]
 
 def preprocessing_des(text):
@@ -16,20 +15,10 @@ def preprocessing_des(text):
     des = des.lstrip()
     return des
 
-# def extract_table_data(markdown_text):
-#     pattern = r'\|(.+)\|(.+)\|\n\|[-]+\|[-]+\|(.+)\|'
-#     matches = re.findall(pattern, markdown_text, re.MULTILINE)
-#     table_data = [(name.strip(), description.strip()) for name, description, _ in matches]
-#     return table_data
-
 def extract_table_data(markdown_text):
-    # pattern = r'\| \[([^]]+)\]\(([^)]+)\) \|([^|]+)\|'
-    # matches = re.findall(pattern, markdown_text, re.MULTILINE)
-    # table_data = [(f"[{name}]({link})", description.strip()) for name, link, description in matches]
-    
     if markdown_text.strip():
         markdown_text = re.sub(r'\s{2,}', ' ', markdown_text)
-        df_new = pd.read_csv(
+        df = pd.read_csv(
                         StringIO(markdown_text.replace(' ', ' ')),  # Get rid of whitespaces
                         sep='|',
                         index_col=0
@@ -37,11 +26,11 @@ def extract_table_data(markdown_text):
                         axis=1,
                         how='all'
                     ).iloc[1:]
-        df_new = df_new.rename(columns=dict(zip(df_new.columns, column_names)))
+        df = df.rename(columns=dict(zip(df.columns, column_names)))
     else:
-        df_new = pd.DataFrame(columns=column_names)
+        df = pd.DataFrame(columns=column_names)
 
-    return df_new
+    return df
 
 
 def group_files_by_directory(file_paths_list):
@@ -77,19 +66,8 @@ def add_line(column_names, added_dir_groups):
                 print(f" markdown : {markdown_text}")
                 df_original = extract_table_data(markdown_text)
                     
-
-                # table_data = extract_table_data(markdown_text)
-                # print(f" table data : {table_data}")
-                # df_original = pd.DataFrame(table_data, columns=column_names)
-
-                ###############################################
                 for file_name in file_names:
                     file_info.append(f"[{file_name}](./{file_name})")
-                # file_info = ["[{}](./{})".format(file_name, file_name) for file_name in zip(file_names, file_names)]
-                print("[[[ file_info ]]]")
-                print(file_info)
-                print("[[[ first_lines ]]]")
-                print(first_lines)
                 df_new = pd.DataFrame({
                     column_names[0]: file_info,
                     column_names[1]: first_lines 
